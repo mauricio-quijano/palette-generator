@@ -5,6 +5,7 @@ const sliders = document.querySelectorAll('input[type="range"]');
 const currentHexes = document.querySelectorAll(".color h2");
 const popup = document.querySelector(".copy-container");
 const adjustButtons = document.querySelectorAll(".adjust");
+const lockButtons = document.querySelectorAll(".lock");
 const closeAdjustments = document.querySelectorAll(".close-adjustment");
 const slidersContainers = document.querySelectorAll(".sliders");
 let initialColors;
@@ -38,6 +39,12 @@ closeAdjustments.forEach((closeAdjustment, index) => {
         closeAdjustmentPanel(index);
     });
 });
+generateBtn.addEventListener("click", randomColors);
+lockButtons.forEach((lockButton, index) => {
+    lockButton.addEventListener("click", () => {
+        lockColor(index);
+    });
+});
 
 // Functions
 function randomColors() {
@@ -47,7 +54,12 @@ function randomColors() {
         const icons = div.children[1].children;
         const randomColor = chroma.random();
         // Store initial colors in the array
-        initialColors.push(chroma(randomColor).hex());
+        if (div.classList.contains("locked")) {
+            initialColors.push(hexText.innerText);
+            return;
+        } else {
+            initialColors.push(chroma(randomColor).hex());
+        }
         // Set color to the background and text label
         div.style.backgroundColor = randomColor;
         hexText.innerText = randomColor;
@@ -169,6 +181,12 @@ function openAdjustmentPanel(index) {
 
 function closeAdjustmentPanel(index) {
     slidersContainers[index].classList.remove("active");
+}
+
+function lockColor(index) {
+    colorDivs[index].classList.toggle("locked");
+    lockButtons[index].children[0].classList.toggle("fa-lock-open");
+    lockButtons[index].children[0].classList.toggle("fa-lock");
 }
 
 // Run File
