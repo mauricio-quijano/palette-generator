@@ -55,14 +55,14 @@ svg {
     position: absolute;
     bottom: 0%;
     background: white;
-    /* opacity: 0; */
+    opacity: 0;
     padding: 1rem;
     width: 80%;
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
-    /* pointer-events: none; */
+    pointer-events: none;
     /* Adding adjustment class */
-    /* transform: translateY(100px); */
+    transform: translateY(100px);
     transition: all 0.5s ease-in-out;
 }
 
@@ -110,7 +110,7 @@ svg {
 }
 
 .panel p {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 }
 
 .library-panel,
@@ -153,6 +153,7 @@ input[type="range"] {
     align-items: center;
     opacity: 0;
     pointer-events: none;
+    transition: all 0.5s ease-in-out;
 }
 
 .copy-popup {
@@ -168,6 +169,7 @@ input[type="range"] {
     min-height: 30vh;
 }
 
+.copy-popup h3,
 .copy-popup h4 {
     font-size: 2rem;
     padding: 2rem;

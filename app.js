@@ -4,6 +4,9 @@ const generateBtn = document.querySelector(".generate");
 const sliders = document.querySelectorAll('input[type="range"]');
 const currentHexes = document.querySelectorAll(".color h2");
 const popup = document.querySelector(".copy-container");
+const adjustButtons = document.querySelectorAll(".adjust");
+const closeAdjustments = document.querySelectorAll(".close-adjustment");
+const slidersContainers = document.querySelectorAll(".sliders");
 let initialColors;
 
 // Event Listeners
@@ -25,12 +28,23 @@ popup.addEventListener("transitionend", () => {
     popup.classList.remove("active");
     popupBox.classList.remove("active");
 });
+adjustButtons.forEach((adjustButton, index) => {
+    adjustButton.addEventListener("click", () => {
+        openAdjustmentPanel(index);
+    });
+});
+closeAdjustments.forEach((closeAdjustment, index) => {
+    closeAdjustment.addEventListener("click", () => {
+        closeAdjustmentPanel(index);
+    });
+});
 
 // Functions
 function randomColors() {
     initialColors = [];
     colorDivs.forEach((div, index) => {
         const hexText = div.children[0];
+        const icons = div.children[1].children;
         const randomColor = chroma.random();
         // Store initial colors in the array
         initialColors.push(chroma(randomColor).hex());
@@ -39,6 +53,9 @@ function randomColors() {
         hexText.innerText = randomColor;
         // Check for contrast between text and background color
         checkContrast(randomColor, hexText);
+        for (icon of icons) {
+            checkContrast(randomColor, icon);
+        }
         // Initialize color for sliders
         const color = chroma(randomColor);
         const sliders = div.querySelectorAll(".sliders input");
@@ -144,6 +161,14 @@ function copyToClipboard(hex) {
     const popupBox = popup.children[0];
     popup.classList.add("active");
     popupBox.classList.add("active");
+}
+
+function openAdjustmentPanel(index) {
+    slidersContainers[index].classList.toggle("active");
+}
+
+function closeAdjustmentPanel(index) {
+    slidersContainers[index].classList.remove("active");
 }
 
 // Run File
