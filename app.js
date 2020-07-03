@@ -3,6 +3,7 @@ const colorDivs = document.querySelectorAll(".color");
 const generateBtn = document.querySelector(".generate");
 const sliders = document.querySelectorAll('input[type="range"]');
 const currentHexes = document.querySelectorAll(".color h2");
+const popup = document.querySelector(".copy-container");
 let initialColors;
 
 // Event Listeners
@@ -13,6 +14,16 @@ colorDivs.forEach((div, index) => {
     div.addEventListener("change", () => {
         updateTexUI(index);
     });
+});
+currentHexes.forEach((hex) => {
+    hex.addEventListener("click", () => {
+        copyToClipboard(hex);
+    });
+});
+popup.addEventListener("transitionend", () => {
+    const popupBox = popup.children[0];
+    popup.classList.remove("active");
+    popupBox.classList.remove("active");
 });
 
 // Functions
@@ -120,6 +131,19 @@ function resetInputs() {
                 break;
         }
     });
+}
+
+function copyToClipboard(hex) {
+    const element = document.createElement("textarea");
+    element.value = hex.innerText;
+    document.body.appendChild(element);
+    element.select();
+    document.execCommand("copy");
+    document.body.removeChild(element);
+    // Popup animation
+    const popupBox = popup.children[0];
+    popup.classList.add("active");
+    popupBox.classList.add("active");
 }
 
 // Run File
